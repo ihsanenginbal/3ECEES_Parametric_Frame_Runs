@@ -53,7 +53,7 @@ number_of_analysis=len(filelist)/2*len(f_ro)*len(f_concrete)*len(f_steel)*len(f_
 record_no=0
 
 pid = os.getPID()
-np = os.getNP()
+npC = os.getNP()
 os.start()
 if np != 18:
     exit()
