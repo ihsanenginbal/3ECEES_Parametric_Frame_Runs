@@ -11,3 +11,4 @@ print('Hello world')
 #import openseespy.opensees as ops
 import numpy as np
 import pandas as np
+import openseespy.opensees as ops
