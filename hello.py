@@ -8,4 +8,5 @@ Created on Fri Aug 12 15:29:37 2022
 print('Hello world')
 
 # import OpenSeesPy
-import openseespy.opensees as ops
+#import openseespy.opensees as ops
+import numpy as np
