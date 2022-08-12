@@ -510,7 +510,7 @@ for filename in osys.listdir("GMfile/"):
 
                                 # Uniform EXCITATION: acceleration input
                                 os.constraints('Plain')
-                                os.numberer('Plain')
+                                os.numberer('ParallelPlain')
                                 os.system('BandGeneral')
                                 Tol=1e-4 # Convergence Test: tolerance
                                 maxNumIter=5000 # Convergence Test: maximum number of iterations that will be performed before "failure to converge" is returned
