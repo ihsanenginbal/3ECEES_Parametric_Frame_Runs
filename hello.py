@@ -55,7 +55,7 @@ record_no=0
 pid = os.getPID()
 npC = os.getNP()
 os.start()
-if np != 18:
+if np != 11:
     exit()
     
 Elapsed_Time=30
