@@ -73,7 +73,7 @@ for filename in osys.listdir("GMfile/"):
                                 current_analysis+=1
                                 average_time=Elapsed_Time/current_analysis
                                 remaining_time=(number_of_analysis-current_analysis)*average_time
-                                print('Running' + str(round(current_analysis/number_of_analysis*10000)/100) + '% at the moment |---| Record Number=' + str(record_no) + ' |---| Analysis ' + str(current_analysis) + ' of total ' + str(int(number_of_analysis)) + ' |---| Remaining Time=' + str(remaining_time/60/60) + 'hours' )
+                                print('Running on CPU #' + str(pid) + ' ' + str(round(current_analysis/number_of_analysis*10000)/100) + '% at the moment |---| Record Number=' + str(record_no) + ' |---| Analysis ' + str(current_analysis) + ' of total ' + str(int(number_of_analysis)) + ' |---| Remaining Time=' + str(remaining_time/60/60) + 'hours' )
 
                                 fac=[FRO, FCO, FST, FSP, FGH, FUH]
                                 # factors
@@ -463,9 +463,9 @@ for filename in osys.listdir("GMfile/"):
                                 os.integrator('LoadControl', 0.1)
                                 os.test('NormDispIncr', 1e-5, 1000)
                                 os.algorithm('Newton')
-                                os.numberer('RCM')
+                                os.numberer('ParallelRCM')
                                 os.constraints('Transformation')
-                                os.system('BandGeneral')
+                                os.system('Mumps')
                                 os.analysis('Static')
                                 #os.recorder('Node','-file','node_react.txt','-time','-node', 10, 20, 30, 40, 50, '-dof', 2, 'reaction')
                                 os.analyze(10)
@@ -511,7 +511,7 @@ for filename in osys.listdir("GMfile/"):
                                 # Uniform EXCITATION: acceleration input
                                 os.constraints('Plain')
                                 os.numberer('ParallelPlain')
-                                os.system('BandGeneral')
+                                os.system('Mumps')
                                 Tol=1e-4 # Convergence Test: tolerance
                                 maxNumIter=5000 # Convergence Test: maximum number of iterations that will be performed before "failure to converge" is returned
                                 printFlag=0 # Convergence Test: flag used to print information on convergence (optional) # 1: print information on each step;
