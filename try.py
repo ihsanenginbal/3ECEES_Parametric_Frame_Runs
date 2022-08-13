@@ -51,5 +51,5 @@ for filename in osys.listdir("GMfile/"):
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
 
-                                    print('Running on CPU #' + str(pid) + ' ' + str(round(current_analysis/number_of_analysis*10000)/100) + '% at the moment |---| Record Number=' + str(record_no) + ' |---| Analysis ' + str(current_analysis) + ' of total ' + str(int(number_of_analysis)) + ' |---| Remaining Time=' + str(remaining_time/60/60) + 'hours' )
+                                    print('Running on CPU #' + str(pid)  )
 
