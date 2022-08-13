@@ -376,4 +376,47 @@ for filename in osys.listdir("GMfile/"):
                                 ##############################################################################
 
                                 # Add columns
-                                print('reached till add columns')
+                                number_of_columns=0
+                                column_tag_list=[]
+                                for a in range(len(Axes)):
+                                    for b in range(len(Levels)-1):
+                                        nodei=(b)*100+a+1
+                                        nodej=(b+1)*100+a+1
+                                        Col_Tag=nodej   # Columns are named with the top node number tag
+                                        #                                       tag,  secTag,   N
+                                        Sec_Tag=Column_Sections[b][a]
+                                        os.beamIntegration('Lobatto', Col_Tag , Sec_Tag, np_int)
+                                        #	                              Tag      Ndi	  Ndj  Transf Integr	ation
+                                        os.element('forceBeamColumn' ,	Col_Tag, nodei,	 nodej, 1, Col_Tag)
+                                        column_tag_list.append(Col_Tag)
+                                        number_of_columns+=1
+
+                                # Add beams
+                                number_of_beams=0
+                                beams_tag_list=[]
+                                for b in range(len(Levels)):
+                                    for a in range(len(Axes)-1):
+                                        if b>0:
+                                            nodei=(b)*100+a+1
+                                            nodej=(b)*100+a+2
+                                            Beam_Tag=(b)*1000+a+1  # Beams are numbers, from left to right, 1001, 1002 in the first fllor, and 2001, 2002 in the second floor and so on
+                                            Sec_Tag=Beam_Sections[b-1][a]
+                                            os.beamIntegration('Lobatto', Beam_Tag , Sec_Tag, np_int)
+                                            #	                              Tag      Ndi	  Ndj  Transf Integr	ation
+                                            os.element('forceBeamColumn' ,	Beam_Tag, nodei,	 nodej, 1, Beam_Tag)
+                                            beams_tag_list.append(Beam_Tag)
+                                            number_of_beams+=1
+
+                                # # Visualize the model for checking
+                                # import openseespy.postprocessing.Get_Rendering as opsplt
+                                # opsplt.plot_model('nodes','elements')
+
+                                ##############################################################################
+                                ##############################################################################
+                                ## Gravity Analysis                                                         ##
+                                ##############################################################################
+                                ##############################################################################
+                                # Gravity loads-------------------------------------------------------------
+                                os.timeSeries('Linear', 1)
+                                os.pattern('Plain', 1, 1)
+                                print('reached till add load patterns')
