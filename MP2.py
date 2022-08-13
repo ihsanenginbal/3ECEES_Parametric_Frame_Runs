@@ -331,4 +331,49 @@ for filename in osys.listdir("GMfile/"):
                                 # Define cross-section for nonlinear columns
 
                                 # Call the relevant section function
-                                print('reached till section def')
+                                from Define_2D_RC_Sections import RC_Rectangular_Column_Section_2D
+                                # Rectangular Column Sections
+                                section_tag=0
+                                for i in range(len(Col_Widths)):
+                                    section_tag+=1
+                                    colWidth=Col_Widths[i]
+                                    colDepth=Col_Depths[i]
+                                    # Reinforcement:
+                                    # Re= ({Top Reinforcement}, {Top-body Re.}, {Central-body Re.}, {Bottom body Re.}, {Bottom Re.})
+                                    # [3, fi12, 3] means [3 x Fi12 of MatTag#3]
+                                    Re=[Col_Rebars[i][0:3], Col_Rebars[i][3:6], Col_Rebars[i][6:9], Col_Rebars[i][9:12], Col_Rebars[i][12:15]]
+                                    # Concrete material tags, unconfined and confined, respectively
+                                    concrete_tags=[1,2]
+                                    # Add the section
+                                    RC_Rectangular_Column_Section_2D(section_tag, colDepth, colWidth, cover, distance, Re, concrete_tags)
+
+                                # Call the relevant section function
+                                from Define_2D_RC_Sections import RC_Beam_T_Section_2D
+                                # T- Beam Sections
+                                for i in range(len(Hs)):
+                                    section_tag+=1
+                                    hs=Hs[i]
+                                    hb=Hb[i]
+                                    bs=Bs[i]
+                                    bw=Bw[i]
+                                    # Reinforcement:
+                                    # Re= ({Beam Top Re.}, {Slab Re.}, {Beam Body Re.}, {Beam Bottom Re.})
+                                    # [3, fi12, 3] means [3 x Fi12 of MatTag#3]
+                                    Re=[Beam_Rebars[i][0:3], Beam_Rebars[i][3:6], Beam_Rebars[i][6:9], Beam_Rebars[i][9:12]]
+                                    # Concrete material tags, unconfined and confined, respectively
+                                    concrete_tags=[1,2]
+                                    # Add the section
+                                    RC_Beam_T_Section_2D(section_tag, hs, hb, bs, bw, cover, distance, Re, concrete_tags)
+
+                                # Geometry of column and beam elements
+                                os.geomTransf('PDelta', 1)
+                                os.geomTransf('Linear', 2)
+
+                                ##############################################################################
+                                ##############################################################################
+                                ## Elements                                                                 ##
+                                ##############################################################################
+                                ##############################################################################
+
+                                # Add columns
+                                print('reached till add columns')
