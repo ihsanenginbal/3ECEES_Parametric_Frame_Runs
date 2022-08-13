@@ -73,7 +73,8 @@ for filename in osys.listdir("GMfile/"):
                         for FGH in f_ground_height:
                             for FUH in f_upper_height:
 
-                                if pid==current_analysis%cpu_n
+                                #if pid==current_analysis%cpu_n:
+                                if 1==1:
                                     average_time=Elapsed_Time/current_analysis
                                     remaining_time=(number_of_analysis-current_analysis)*average_time
                                     print('Running on CPU #' + str(pid) + ' ' + str(round(current_analysis/number_of_analysis*10000)/100) + '% at the moment |---| Record Number=' + str(record_no) + ' |---| Analysis ' + str(current_analysis) + ' of total ' + str(int(number_of_analysis)) + ' |---| Remaining Time=' + str(remaining_time/60/60) + 'hours' )
