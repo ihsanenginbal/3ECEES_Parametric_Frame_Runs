@@ -46,8 +46,8 @@ for filename in osys.listdir("GMfile/"):
                         for FGH in f_ground_height:
                             for FUH in f_upper_height:
 
-                                #if pid==current_analysis%cpu_n:
-                                if 1==1:
+                                if pid==current_analysis%cpu_n:
+                                #if 1==1:
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
 
