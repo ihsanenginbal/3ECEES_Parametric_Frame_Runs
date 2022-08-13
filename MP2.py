@@ -1,3 +1,4 @@
+
 import openseespy.opensees as os
 import matplotlib.pyplot as plt
 import math
@@ -62,8 +63,16 @@ start_time=time.time()
 for filename in osys.listdir("GMfile/"):
     record_no+=1
     if filename.endswith(".txt"):
-        print(filename + ' on CPU ' + str(pid))
-    
-        fac=[FRO, FCO, FST, FSP, FGH, FUH]
-        os.wipe()
-        os.model('basic','-ndm',2,'-ndf',3)
+        for FRO in f_ro:
+            for FCO in f_concrete:
+                for FST in f_steel:
+                    for FSP in f_span:
+                        for FGH in f_ground_height:
+                            for FUH in f_upper_height:
+
+                                current_analysis+=1
+                                average_time=Elapsed_Time/current_analysis
+                                remaining_time=(number_of_analysis-current_analysis)*average_time
+                                print('Running on CPU #' + str(pid) + ' ' + str(round(current_analysis/number_of_analysis*10000)/100) + '% at the moment |---| Record Number=' + str(record_no) + ' |---| Analysis ' + str(current_analysis) + ' of total ' + str(int(number_of_analysis)) + ' |---| Remaining Time=' + str(remaining_time/60/60) + 'hours' )
+
+                                fac=[FRO, FCO, FST, FSP, FGH, FUH]
