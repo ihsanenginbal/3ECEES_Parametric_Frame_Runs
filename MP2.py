@@ -77,3 +77,50 @@ for filename in osys.listdir("GMfile/"):
 
                                 fac=[FRO, FCO, FST, FSP, FGH, FUH]
                                 os.wipe()
+
+                                ################ Create ModelBuilder (2D and 3 DOF) #######################
+                                os.model('basic','-ndm',2,'-ndf',3)
+
+                                ##############################################################################
+                                ##############################################################################
+                                ## INPUT PARAMETERS                                                         ##
+                                ##############################################################################
+                                ##############################################################################
+
+                                # Reinforcement diameters (mm)
+                                fi8=8/1000*fac[0]
+                                fi10=10/1000*fac[0]
+                                fi12=12/1000*fac[0]
+                                fi14=14/1000*fac[0]
+                                fi16=16/1000*fac[0]
+                                fi18=18/1000*fac[0]
+                                fi20=20/1000*fac[0]
+                                fi22=22/1000*fac[0]
+
+                                # parameters for material properties
+                                fc=-7000*fac[1]	    # Concrete Cylinder Characteristic Strength, kPa	(Reported by the field teams, based on the Schmidt's hammer - no core sampling was allowed in the severely damaged buildings)
+                                K=1.10		    # Confinement Factor (see below explanation)
+                                # [taken from SeismoStruct Help Menu-->]  K is the constant confinement factor, defined as the ratio between the
+                                # confined and unconfined compressive stress of the concrete, and used to scale up the stress-strain relationship
+                                # throughout the entire strain range. Although it may be computed through the use of any confinement model available
+                                # in the literature [e.g. Ahmad and Sahad, 1982; Sheikh and Uzumeri, 1982; Eurocode 8, 1996; Penelis and Kappos, 1997],
+                                # the use of the Mander et al. [1989] is recommended. Its value usually fluctuates between the values of 1.0 and 1.3
+                                # for reinforced concrete members.
+
+                                fy=370000*fac[2]	# Steel Strength, kPa (Median value from Akyuz and Uyan, 1992)
+                                cover=0.03		    # m
+
+                                #  Span Lengths (m) - centroid to centroid of columns
+                                # Span lengths are increased with factor fac[3] for parametric analysis
+                                Lengths=np.array([1.80, 3.20, 2.80, 3.10, 2.80])*fac[3]
+
+                                # Clear length of left and right balconies in m (zero if doesnt exist)
+                                Left_Right_Balconies=[1.50, 1.44]
+
+                                # Unit area seismic weight of left and right balconies in kN/m2 (zero if doesnt exist)
+                                LRB_weight=[8.4, 8.4]
+
+                                #  Floor Heights (m)
+                                # Ground floor height is set with factor fac[4]
+                                # Upper (normal) floor heights are set with factor fac[5]
+                                Heights=np.array([3.0/fac[5]*fac[4], 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0])*fac[5]
