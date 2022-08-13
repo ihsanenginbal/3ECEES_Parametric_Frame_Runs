@@ -62,4 +62,4 @@ start_time=time.time()
 for filename in osys.listdir("GMfile/"):
     record_no+=1
     if filename.endswith(".txt"):
-      print(filename)
+      print(filename + ' on CPU ' + str(pid))
