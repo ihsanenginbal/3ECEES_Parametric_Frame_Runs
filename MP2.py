@@ -62,4 +62,8 @@ start_time=time.time()
 for filename in osys.listdir("GMfile/"):
     record_no+=1
     if filename.endswith(".txt"):
-      print(filename + ' on CPU ' + str(pid))
+        print(filename + ' on CPU ' + str(pid))
+    
+        fac=[FRO, FCO, FST, FSP, FGH, FUH]
+        os.wipe()
+        os.model('basic','-ndm',2,'-ndf',3)
