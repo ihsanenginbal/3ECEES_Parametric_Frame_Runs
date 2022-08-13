@@ -454,4 +454,4 @@ for filename in osys.listdir("GMfile/"):
                                 #os.recorder('Node','-file','node_react.txt','-time','-node', 10, 20, 30, 40, 50, '-dof', 2, 'reaction')
                                 os.analyze(10)
                                 
-                                print('reached till record vert react')
+                                # print('reached till record vert react')
