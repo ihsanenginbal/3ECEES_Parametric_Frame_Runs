@@ -270,3 +270,64 @@ for filename in osys.listdir("GMfile/"):
 
                                 # Find the floor levels
                                 Levels=np.append(0,np.cumsum([Heights]))
+                                
+                                # Calculate the column self-weights for mass calculations - Nsf
+                                N_sf=np.zeros((len(Column_Sections), len(Column_Sections[0])))
+                                for i in range(len(Column_Sections)):
+                                    for j in range(len(Column_Sections[0])):
+                                        volume=Col_Widths[Column_Sections[i][j]-1]*Col_Depths[Column_Sections[i][j]-1]
+                                        N_sf[i][j]=-1*volume*Heights[i]*24
+
+                                # Calculate the column loads from beam distributed loads, Wz
+                                # These loads are used only for calculating the column-top masses
+                                # They are not added as column top loads as beam distributed loads
+                                # are already defined as element distributed loads for beams
+                                N_wz=np.zeros((len(Levels)-1, len(Axes)))
+                                for i in range(len(Levels)-1):
+                                    for j in range(len(Axes)):
+                                        if j==0:  # If the left-most column
+                                            N_wz[i][j]=-1*LRB_weight[0]*Left_Right_Balconies[0]+Wz[i][j]*Lengths[j]/2
+                                        elif j==len(Axes)-1:  # If the right-most column
+                                            N_wz[i][j]=-1*LRB_weight[1]*Left_Right_Balconies[1]+Wz[i][j-1]*Lengths[j-1]/2
+                                        else:
+                                            N_wz[i][j]=Wz[i][j-1]*Lengths[j-1]/2+Wz[i][j]*Lengths[j]/2
+
+                                # Column top point load sum
+                                N_col=N0+N_sf+N_wz
+
+                                # Colum top lumped masses in tonnes
+                                M_lumped=(N_col)*-1/9.81
+
+                                ##############################################################################
+                                ##############################################################################
+                                ## NODES                                                                    ##
+                                ##############################################################################
+                                ##############################################################################
+
+                                # Create the nodes & assign the masses
+                                nd_counterX=0
+                                total_mass_check=0
+                                for x in Axes:
+                                    nd_counterX+=1
+                                    nd_counterY=0
+                                    for y in Levels:
+                                        nd_counterY+=1
+                                        node_no=(nd_counterY-1)*100+nd_counterX
+                                        os.node(node_no, Axes[nd_counterX-1], Levels[nd_counterY-1])
+                                        if y>0:
+                                            os.mass(node_no, M_lumped[nd_counterY-2][nd_counterX-1], M_lumped[nd_counterY-2][nd_counterX-1], 0)
+                                            # Check the total mass of the frame
+                                            total_mass_check=total_mass_check+M_lumped[nd_counterY-2][nd_counterX-1]
+
+                                # Fix the base
+                                os.fixY(0,1,1,1)
+
+                                ##############################################################################
+                                ##############################################################################
+                                ## SECTIONS                                                                 ##
+                                ##############################################################################
+                                ##############################################################################
+
+                                # Define cross-section for nonlinear columns
+
+                                # Call the relevant section function
