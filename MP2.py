@@ -63,8 +63,9 @@ cpu_n=5
 Elapsed_Time=30
 start_time=time.time()
 for filename in osys.listdir("GMfile/"):
-    record_no+=1
+    
     if filename.endswith(".txt"):
+        record_no+=1
         for FRO in f_ro:
             for FCO in f_concrete:
                 for FST in f_steel:
