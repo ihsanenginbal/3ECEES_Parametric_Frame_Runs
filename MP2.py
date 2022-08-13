@@ -419,4 +419,39 @@ for filename in osys.listdir("GMfile/"):
                                 # Gravity loads-------------------------------------------------------------
                                 os.timeSeries('Linear', 1)
                                 os.pattern('Plain', 1, 1)
-                                print('reached till add load patterns')
+                                
+                                # Add uniformly distributed loads on beams in -z direction
+
+                                ## !!!! eleLoad function did not work properly, so all the vertical loads are applied
+                                ## on the column tops. If eleLoad works, this block can be used.
+                                ## In thi scase, the N_col variable should not include N_wz matrix !
+
+                                # bm_counter=0
+                                # beam_load_check=0
+                                # for i in range(len(Lengths)):
+                                #     for j in range(len(Heights)):
+                                #         os.eleLoad(beams_tag_list[i], '-type', '-beamUniform', Wz[j][i])
+                                #         bm_counter+=1
+                                #         beam_load_check=beam_load_check+Wz[j][i]
+
+                                # Add column top loads
+                                col_counter=0
+                                col_load_check=0
+                                for i in range(len(Axes)):
+                                    for j in range(len(Heights)):
+                                        os.load(column_tag_list[col_counter], 0, N_col[j][i], 0)
+                                        col_counter+=1
+                                        col_load_check=col_load_check+N_col[j][i]
+
+                                # Load control with variable load steps
+                                os.integrator('LoadControl', 0.1)
+                                os.test('NormDispIncr', 1e-5, 1000)
+                                os.algorithm('Newton')
+                                os.numberer('ParallelRCM')
+                                os.constraints('Transformation')
+                                os.system('Mumps')
+                                os.analysis('Static')
+                                #os.recorder('Node','-file','node_react.txt','-time','-node', 10, 20, 30, 40, 50, '-dof', 2, 'reaction')
+                                os.analyze(10)
+                                
+                                print('reached till record vert react')
