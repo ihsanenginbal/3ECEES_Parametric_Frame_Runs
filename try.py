@@ -30,9 +30,9 @@ record_no=0
 
 # OpenSeesPy Parallel commands ---------------------
 #---------------------------------------------------
-pid = os.getPID()
-npC = os.getNP()
-os.start()
+#pid = os.getPID()
+#npC = os.getNP()
+#os.start()
 # number of CPUs to be used in the parallel analysis
 cpu_n=5
 
