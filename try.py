@@ -7,6 +7,9 @@ import os as osys
 import numpy as np
 import time
 
+from mpi4py import MPI
+rank = MPI.COMM_WORLD.Get_rank()
+
 
 # Parametric analyses ranges
 f_ro=[0.8, 1.0]
@@ -32,9 +35,7 @@ npC = os.getNP()
 os.start()
 # number of CPUs to be used in the parallel analysis
 cpu_n=5
-    
-Elapsed_Time=30
-start_time=time.time()
+
 for filename in osys.listdir("GMfile/"):
     
     if filename.endswith(".txt"):
@@ -46,12 +47,13 @@ for filename in osys.listdir("GMfile/"):
                         for FGH in f_ground_height:
                             for FUH in f_upper_height:
 
-                                if pid==record_no:
+                                if rank==current_analysis%cpu_n:
                                 #if 1==1:
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
 
                                     print('Running on CPU #' + str(pid) + 'for the record ' + str(record_no) )
                                     
-                                    os.barrier()
+                                    current_analysis+=1
+                                    
 
