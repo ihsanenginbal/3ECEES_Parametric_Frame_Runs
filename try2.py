@@ -9,4 +9,4 @@ if rank == 0:
 if rank == 1:
         print(a * b)
 if rank == 2:
-        print max(a,b)
+        print(a-b)
