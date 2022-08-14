@@ -52,7 +52,7 @@ for filename in osys.listdir("GMfile/"):
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
 
-                                    print('Running on CPU #' + str(pid) + 'for the record ' + str(record_no) )
+                                    print('Running on CPU #' + str(rank) + 'for the record ' + str(record_no)+ 'for the analysis no ' + str(current_analysis) )
                                     
                                     current_analysis+=1
                                     
