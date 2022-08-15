@@ -29,12 +29,17 @@ os.start()
 # number of CPUs to be used in the parallel analysis
 cpu_n=5
 
+old_pid=-1
+new_pid=pid
+
 print('passed 1 with PID' + str(pid) + ' at Current Anlysis: ' + str(current_analysis) + ' & record number: ' + str(rec_no))
     
 for filename in osys.listdir("GMfile/"):
+  
+    pid = os.getPID()
     print('passed 2 with PID' + str(pid) + ' at Current Anlysis: ' + str(current_analysis) + ' & record number: ' + str(rec_no))
     
-    if pid==current_analysis%cpu_n:
+    if pid==current_analysis%cpu_n and old_pid!=new_pid:
         print('passed 3 with PID' + str(pid) + ' at Current Anlysis: ' + str(current_analysis) + ' & record number: ' + str(rec_no))
 
         if filename.endswith(".txt"):
@@ -55,6 +60,4 @@ for filename in osys.listdir("GMfile/"):
                                     print(fac)
                                    
                                     current_analysis+=1
-                                    
-                                    time.sleep(10)
                                     
