@@ -34,12 +34,16 @@ npC = os.getNP()
 os.start()
 # number of CPUs to be used in the parallel analysis
 cpu_n=5
+
+print('passed 1')
     
 Elapsed_Time=30
 start_time=time.time()
 for filename in osys.listdir("GMfile/"):
+    print('passed 2')
     
     if filename.endswith(".txt"):
+        print('passed 3')
         record_no+=1
         for FRO in f_ro:
             for FCO in f_concrete:
@@ -47,9 +51,13 @@ for filename in osys.listdir("GMfile/"):
                     for FSP in f_span:
                         for FGH in f_ground_height:
                             for FUH in f_upper_height:
+                                
+                                print('passed 4')
 
                                 if pid==current_analysis%cpu_n:
                                 #if 1==1:
+                                
+                                print('passed 5')
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
                                     os.wipe()
