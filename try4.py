@@ -53,5 +53,8 @@ for filename in osys.listdir("GMfile/"):
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
                                     print(fac)
+                                   
                                     current_analysis+=1
+                                    
+                                    time.sleep(10)
                                     
