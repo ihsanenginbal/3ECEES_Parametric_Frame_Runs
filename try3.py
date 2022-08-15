@@ -9,46 +9,21 @@ import time
 
 
 
-# Units: kN, m, sec
-# -------------------------------------------------------------------------
-# Code          : PFN - 8B - 1
-# Explanation   : Poor-Frame-Emergent Beam from Bayrakli/Izmir set
-# Source        : Building information from Bekir Ozer Ay (METU), from Bayrakli/Izmir, is used for generating frames,Ref:226431 / Ax 9.
-#                       Bal et al., 2008 is also used for defining parametric ranges. 
-# Number of Bays: 5 Bays
-# Number of Str.: 8-Storey
-# Author        : Dr. Eleni Smyrou (e.smyrou@pl.hanze.nl)
-# Version check : v4.0 / 25.12.2021 - Parametric
-# ------------------------------------------------------------------------
-
-##############################################################################
-##############################################################################
-## PARAMETRIC ANALYSES PARAMETERS & LOOPS                                   ##
-##############################################################################
-##############################################################################
 
 # Parametric analyses ranges
 f_ro=[0.8, 1.0]
-f_concrete=[0.75, 1.00, 1.50]
-f_steel=[0.75, 1.00, 1.50]
-f_span=[1.00, 1.50]
+f_concrete=[0.75]
+f_steel=[0.75]
+f_span=[1.00]
 f_ground_height=[1.00, 1.50]	
 f_upper_height=[1.00]
 
 current_analysis=0
 
-# Read the acceleration files (in txt format, single data column)
-# In this example, the acceleration data are coming from AFAD / Turkey
-# The ground motion files are in .asc format
-# Ass .asc files are turned into single-column txt files
-# and header lines are removed for use in OpenSees.
-
-
 # Now read all the txt files transformed from the asc files, and run as many analyses
 filelist=osys.listdir("GMfile/")
 
 number_of_analysis=len(filelist)/2*len(f_ro)*len(f_concrete)*len(f_steel)*len(f_span)*len(f_ground_height)*len(f_upper_height)
-
 
 record_no=0
 
@@ -73,8 +48,8 @@ for filename in osys.listdir("GMfile/"):
                         for FGH in f_ground_height:
                             for FUH in f_upper_height:
 
-                                #if pid==current_analysis%cpu_n:
-                                if 1==1:
+                                if pid==current_analysis%cpu_n:
+                                #if 1==1:
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
                                     os.wipe()
@@ -101,13 +76,7 @@ for filename in osys.listdir("GMfile/"):
                                     # parameters for material properties
                                     fc=-7000*fac[1]	    # Concrete Cylinder Characteristic Strength, kPa	(Reported by the field teams, based on the Schmidt's hammer - no core sampling was allowed in the severely damaged buildings)
                                     K=1.10		    # Confinement Factor (see below explanation)
-                                    # [taken from SeismoStruct Help Menu-->]  K is the constant confinement factor, defined as the ratio between the
-                                    # confined and unconfined compressive stress of the concrete, and used to scale up the stress-strain relationship
-                                    # throughout the entire strain range. Although it may be computed through the use of any confinement model available
-                                    # in the literature [e.g. Ahmad and Sahad, 1982; Sheikh and Uzumeri, 1982; Eurocode 8, 1996; Penelis and Kappos, 1997],
-                                    # the use of the Mander et al. [1989] is recommended. Its value usually fluctuates between the values of 1.0 and 1.3
-                                    # for reinforced concrete members.
-
+                                  
                                     fy=370000*fac[2]	# Steel Strength, kPa (Median value from Akyuz and Uyan, 1992)
                                     cover=0.03		    # m
 
@@ -126,10 +95,7 @@ for filename in osys.listdir("GMfile/"):
                                     # Upper (normal) floor heights are set with factor fac[5]
                                     Heights=np.array([3.0/fac[5]*fac[4], 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0])*fac[5]
 
-                                    # Column Top Loads - kN (from bottom to top) - loads from transverse frames, excluding column self weights
-                                    # When the span lengths are increased with the factor fac[3], the transverse
-                                    # axis lengths are also assumed to be increased. The column top loads
-                                    # coming from the transverse beams are thus increased proportionally with factor fac[3]
+                                 
                                     N0=np.array([[-6.3, -1.8, -8.9, -8.9, -1.8, -6.3],
                                                  [-6.3, -1.8, -8.9, -8.9, -1.8, -6.3],
                                                  [-6.3, -1.8, -8.9, -8.9, -1.8, -6.3],
@@ -139,15 +105,7 @@ for filename in osys.listdir("GMfile/"):
                                                  [-6.3, -1.8, -8.9, -8.9, -1.8, -6.3],
                                                  [-6.1, -1.4, -8.7, -8.7, -1.4, -6.1]])*fac[3]
 
-                                    # Beam Distributed Loads - kN/m
-                                    # Beam distributed loads are calculated as combination of the beam self weights and
-                                    # and the loads acting on the beams from the slabs. When the span lengths are increased
-                                    # with factor fac[3], the beam distributed loads will also increase because of the slab
-                                    # contribution on the total load. For the sake of simplicity, even when the span length is changed,
-                                    # the beam dimensions are kept constant and the beam distributed laods are increased only by half of the
-                                    # factor fac[3]. It should be noted that Bal et al. (2008, published report of IUSS and the paper in SDEE)
-                                    # show that there is no significant correlation between the beam section depth
-                                    # and the span length. The reasons for this are explaiend in the referred publications.
+                                   
                                     Wz=np.array([[-7.8, -8.3, -7.3, -8.1, -8.2],
                                                  [-7.8, -8.3, -7.3, -8.1, -8.2],
                                                  [-7.8, -8.3, -7.3, -8.1, -8.2],
@@ -157,7 +115,7 @@ for filename in osys.listdir("GMfile/"):
                                                  [-7.8, -8.3, -7.3, -8.1, -8.2],
                                                  [-7.5, -8.1, -7.1, -7.9, -7.9]])*(1+(fac[3]-1)/2)
 
-                                    # Column section number assignments (from bottom to top)
+                                   
                                     # Number of rows of the below matrix is equal to number of floors
                                     Column_Sections=[[1, 2, 3, 3, 2, 1],
                                                      [1, 2, 3, 3, 2, 1],
@@ -188,14 +146,7 @@ for filename in osys.listdir("GMfile/"):
                                     Col_Widths=np.round(Col_Widths*fac[3]*20, 0)/20
                                     Col_Depths=np.round(Col_Depths*fac[3]*20, 0)/20
 
-                                    # Column reinforcement
-                                    # Number of rows of this matrix has to be equal to the number of column sections, since each row corresponds to rebars of one column section
-                                    # Each row has 15 values, which are as:
-                                    #       Number of Top Rebars           , Diameter, MatTag
-                                    #       Number of Side-Top Rebars      , Diameter, MatTag  -> This is the total rebars on both edges
-                                    #       Number of Side-Middle Rebars   , Diameter, MatTag  -> This is the total rebars on both edges
-                                    #       Number of Side-Bottom Rebars  , Diameter, MatTag  -> This is the total rebars on both edges
-                                    #       Number of Bottom Rebars        , Diameter, MatTag
+                                   
                                     Col_Rebars=[ [5, fi16, 3, 2, fi14, 3, 4, fi14, 3, 2, fi14, 3, 5, fi16, 3],
                                                  [6, fi16, 3, 2, fi14, 3, 0, fi14, 0, 2, fi14, 3, 6, fi16, 3],
                                                  [5, fi16, 3, 2, fi14, 3, 0, fi14, 3, 2, fi14, 3, 5, fi16, 3],
@@ -218,12 +169,7 @@ for filename in osys.listdir("GMfile/"):
                                     Bw=[0.25, 0.25]
 
                                     # Beam reinforcement
-                                    # Number of rows of this matrix has to be equal to the number of beam sections, since each row corresponds to rebars of one beam section
-                                    # Each row has 12 values, which are as:
-                                    #       Number of Top Rebars       , Diameter, MatTag
-                                    #       Number of Slab Rebars      , Diameter, MatTag
-                                    #       Number of Beam Body Rebars , Diameter, MatTag
-                                    #       Number of Bottom Rebars    , Diameter, MatTag
+                                   
                                     Beam_Rebars=[ [2, fi16, 3, 4, fi8, 3, 0, 0, 0, 2, fi16, 3],
                                                   [4, fi16, 3, 4, fi8, 3, 0, 0, 0, 3, fi16, 3]]
 
@@ -279,10 +225,7 @@ for filename in osys.listdir("GMfile/"):
                                             volume=Col_Widths[Column_Sections[i][j]-1]*Col_Depths[Column_Sections[i][j]-1]
                                             N_sf[i][j]=-1*volume*Heights[i]*24
 
-                                    # Calculate the column loads from beam distributed loads, Wz
-                                    # These loads are used only for calculating the column-top masses
-                                    # They are not added as column top loads as beam distributed loads
-                                    # are already defined as element distributed loads for beams
+                                  
                                     N_wz=np.zeros((len(Levels)-1, len(Axes)))
                                     for i in range(len(Levels)-1):
                                         for j in range(len(Axes)):
