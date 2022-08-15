@@ -49,4 +49,5 @@ for filename in osys.listdir("GMfile/"):
                                     print('passed 5 with PID' + str(pid) ' at Current Anlysis: ' + str(current_analysis))
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
+                                    print(fac)
                                     
