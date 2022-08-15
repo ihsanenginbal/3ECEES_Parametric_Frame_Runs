@@ -57,7 +57,7 @@ for filename in osys.listdir("GMfile/"):
                                 if pid==current_analysis%cpu_n:
                                 #if 1==1:
                                 
-                                print('passed 5')
+                                    print('passed 5')
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
                                     os.wipe()
