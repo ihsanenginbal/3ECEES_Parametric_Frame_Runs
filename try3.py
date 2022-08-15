@@ -35,15 +35,15 @@ os.start()
 # number of CPUs to be used in the parallel analysis
 cpu_n=5
 
-print('passed 1')
+print('passed 1 with PID' + str(pid))
     
 Elapsed_Time=30
 start_time=time.time()
 for filename in osys.listdir("GMfile/"):
-    print('passed 2')
+    print('passed 2 with PID' + str(pid))
     
     if filename.endswith(".txt"):
-        print('passed 3')
+        print('passed 3 with PID' + str(pid))
         record_no+=1
         for FRO in f_ro:
             for FCO in f_concrete:
@@ -52,12 +52,12 @@ for filename in osys.listdir("GMfile/"):
                         for FGH in f_ground_height:
                             for FUH in f_upper_height:
                                 
-                                print('passed 4')
+                                print('passed 4 with PID' + str(pid))
 
                                 if pid==current_analysis%cpu_n:
                                 #if 1==1:
                                 
-                                    print('passed 5')
+                                    print('passed 5 with PID' + str(pid))
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
                                     os.wipe()
