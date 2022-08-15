@@ -15,7 +15,7 @@ f_ro=[0.8, 1.0]
 f_concrete=[0.75]
 f_steel=[0.75]
 f_span=[1.00]
-f_ground_height=[1.00, 1.50]	
+f_ground_height=[1.00]	
 f_upper_height=[1.00]
 
 current_analysis=0
