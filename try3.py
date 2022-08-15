@@ -42,21 +42,20 @@ start_time=time.time()
 for filename in osys.listdir("GMfile/"):
     print('passed 2 with PID' + str(pid))
     
-    if filename.endswith(".txt"):
+    if pid==current_analysis%cpu_n:
         print('passed 3 with PID' + str(pid))
-        record_no+=1
-        for FRO in f_ro:
-            for FCO in f_concrete:
-                for FST in f_steel:
-                    for FSP in f_span:
-                        for FGH in f_ground_height:
-                            for FUH in f_upper_height:
-                                
-                                print('passed 4 with PID' + str(pid))
 
-                                if pid==current_analysis%cpu_n:
-                                #if 1==1:
-                                
+        if filename.endswith(".txt"):
+            print('passed 4 with PID' + str(pid))
+            
+            record_no+=1
+            for FRO in f_ro:
+                for FCO in f_concrete:
+                    for FST in f_steel:
+                        for FSP in f_span:
+                            for FGH in f_ground_height:
+                                for FUH in f_upper_height:
+
                                     print('passed 5 with PID' + str(pid))
                                     
                                     fac=[FRO, FCO, FST, FSP, FGH, FUH]
